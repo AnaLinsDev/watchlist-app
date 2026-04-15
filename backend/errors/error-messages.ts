@@ -6,6 +6,7 @@ export const ErrorMessages: Partial<Record<ErrorCode, string>> = {
   [ErrorCode.USER_ALREADY_EXISTS]: "User already exists",
   [ErrorCode.UNAUTHORIZED]: "Unauthorized",
   [ErrorCode.FORBIDDEN]: "Forbidden",
+  [ErrorCode.INVALID_CREDENTIALS]: "Invalid Credentials",
 
   // Validation
   [ErrorCode.VALIDATION_ERROR]: "Invalid request data",
