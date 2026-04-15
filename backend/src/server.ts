@@ -3,17 +3,25 @@ import "dotenv/config";
 
 // Routes
 import movieRoutes from "./routes/movie.routes";
+import authRoutes from "./routes/auth.routes";
 import healthRoutes from "./routes/health.routes";
 import { connectDB, disconnectDB } from "./config/db";
+import { errorHandler } from "../middlewares/error-handler";
 
 const app = express();
 const PORT = 5001;
 
+// Middleware: body parsing
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // API Routes
 app.use("/movies", movieRoutes);
+app.use("/auth", authRoutes);
 app.use("/health", healthRoutes);
+
+// Middleware: error handler
+app.use(errorHandler);
 
 let server: any;
 
