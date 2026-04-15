@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { prisma } from "../config/db";
 import { ErrorCode, HttpStatusCode } from "../enums";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../helper/generate-token";
 
 const register = async (
   req: Request,
@@ -84,7 +85,7 @@ const login = async (
       data: {
         user: {
           id: user.id,
-          name: name,
+          name: user.name,
           email: email,
         },
       },
@@ -94,4 +95,19 @@ const login = async (
   }
 };
 
-export { register, login };
+const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(HttpStatusCode.OK).json({
+    status: "success",
+    message: "Logged out successfully",
+  });
+};
+
+export { register, login, logout };
