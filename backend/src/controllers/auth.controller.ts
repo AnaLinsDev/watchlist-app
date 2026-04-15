@@ -1,48 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import { prisma } from "../config/db";
-import { ErrorCode, HttpStatusCode } from "../enums";
-import bcrypt from "bcryptjs";
+import { loginUser, registerUser } from "../services/auth.service";
 import { generateToken } from "../helper/generate-token";
+import { HttpStatusCode } from "../enums";
 
-const register = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, password } = req.body;
 
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const user = await registerUser(name, email, password);
 
-    if (user) {
-      throw {
-        code: ErrorCode.USER_ALREADY_EXISTS,
-      };
-    }
-
-    //Hash Password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const newUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-      },
-    });
+    generateToken(user.id, res);
 
     res.status(HttpStatusCode.CREATED).json({
       status: "success",
       data: {
         user: {
-          id: newUser.id,
-          name: name,
-          email: email,
+          id: user.id,
+          name: user.name,
+          email: user.email,
         },
       },
     });
@@ -51,34 +26,13 @@ const register = async (
   }
 };
 
-const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
+const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
 
-    const user = await prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+    const user = await loginUser(email, password);
 
-    if (!user) {
-      throw {
-        code: ErrorCode.USER_NOT_FOUND,
-      };
-    }
-
-    //Validate Password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      throw {
-        code: ErrorCode.INVALID_CREDENTIALS,
-      };
-    }
+    generateToken(user.id, res);
 
     res.status(HttpStatusCode.OK).json({
       status: "success",
@@ -86,7 +40,7 @@ const login = async (
         user: {
           id: user.id,
           name: user.name,
-          email: email,
+          email: user.email,
         },
       },
     });
@@ -95,15 +49,12 @@ const login = async (
   }
 };
 
-const logout = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): Promise<void> => {
+const logout = async (req: Request, res: Response) => {
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
   });
+
   res.status(HttpStatusCode.OK).json({
     status: "success",
     message: "Logged out successfully",
