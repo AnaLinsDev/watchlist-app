@@ -10,7 +10,7 @@
 
 ## List of Technologies
 - Typescript
-- Backend: Express
+- Backend: FastAPI
 - Backend: Prisma
 - Database: Neon
   
