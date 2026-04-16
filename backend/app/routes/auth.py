@@ -1,9 +1,13 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
+
 from app.database import SessionLocal
-from app.models.user import User
-from app.services.user_service import create_user
-from app.schemas.user import UserCreate
+from app.schemas.auth_schema import RegisterRequest, LoginRequest, AuthResponse
+from app.controllers.auth_controller import (
+    register_controller,
+    login_controller,
+    logout_controller,
+)
 
 router = APIRouter(prefix="/auth")
 
@@ -14,8 +18,20 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/register")
-def register(user: UserCreate, db: Session = Depends(get_db)):
-    new_user = create_user(db, user.email, user.username, user.password)
-    return new_user
+@router.post("/register", response_model=AuthResponse)
+def register(data: RegisterRequest, db: Session = Depends(get_db)):
+    return register_controller(db, data)
 
+
+@router.post("/login", response_model=AuthResponse)
+def login(
+    data: LoginRequest,
+    response: Response,
+    db: Session = Depends(get_db),
+):
+    return login_controller(db, response, data)
+
+
+@router.post("/logout")
+def logout(response: Response):
+    return logout_controller(response)

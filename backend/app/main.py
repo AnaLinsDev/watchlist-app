@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 import app.models
 
 from app.core.error_handlers import (
+    validation_exception_handler,
     app_error_handler,
     global_exception_handler
 )
@@ -17,3 +19,4 @@ app.include_router(auth.router)
 # register handlers
 app.add_exception_handler(AppError, app_error_handler)
 app.add_exception_handler(Exception, global_exception_handler)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
