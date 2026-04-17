@@ -6,6 +6,12 @@ from app.models.user import User
 from app.core.security import hash_password, verify_password, create_access_token
 from app.core.errors import AppError, ErrorCode
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+NODE_ENV = os.getenv("NODE_ENV")
 
 def register_user(db: Session, email: str, username: str, password: str):
     
@@ -40,9 +46,9 @@ def login_user(db: Session, response: Response, email: str, password: str):
         key="access_token",
         value=token,
         httponly=True,
-        secure=True,
+        secure=NODE_ENV == "prod",
         samesite="lax",
-        max_age=60 * 60 * 24,
+        max_age=60 * 60 * 24, # 1 day
     )
 
     return user
