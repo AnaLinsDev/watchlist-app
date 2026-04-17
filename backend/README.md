@@ -1,40 +1,140 @@
-📦 Prisma Commands Cheat Sheet
-1. Generate Client
+# Watchlist API (FastAPI + SQLAlchemy + Alembic)
 
-Generates the PrismaClient based on your schema. Run this after changing schema.prisma.
+API para gerenciamento de watchlists (filmes/séries), construída com FastAPI, SQLAlchemy e Alembic.
 
-npx prisma generate
-2. Create Migration (Development)
+---
 
-Creates a migration, updates the database, and regenerates the client.
+## 📦 Requisitos
 
-npx prisma migrate dev --name init
-3. Sync Database (No Migrations)
+* Python 3.10+
+* pip
+* (Opcional) PostgreSQL
 
-Syncs your schema to the database without creating migrations. Useful for prototypes.
+---
 
-npx prisma db push
-4. Open Database UI
+## 🚀 Setup do projeto
 
-Opens a browser interface to view and edit your database.
+### 1. Clonar o repositório
 
-npx prisma studio
-5. Reset Database
+```bash
+git clone https://github.com/seu-usuario/seu-repo.git
+cd seu-repo
+```
 
-Drops the database and reapplies all migrations (deletes all data).
+---
 
-npx prisma migrate reset
-6. Run Migrations in Production
+### 2. Criar ambiente virtual (venv)
 
-Applies pending migrations in production environments.
+```bash
+python -m venv venv
+```
 
-npx prisma migrate deploy
-7. Format Schema
+Ativar:
 
-Formats your schema.prisma file.
+* Windows (CMD):
 
-npx prisma format
-🧠 Usage Tips
-Use migrate dev for real projects with version control
-Use db push for quick prototypes
-Use studio to inspect and debug data visually
+```bash
+venv\Scripts\activate
+```
+
+* Windows (PowerShell):
+
+```bash
+venv\Scripts\Activate.ps1
+```
+
+* Linux / macOS:
+
+```bash
+source venv/bin/activate
+```
+
+---
+
+### 3. Instalar dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+DATABASE_URL=sqlite:///./test.db
+```
+
+### Exemplo com PostgreSQL
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/watchlist_db
+```
+
+---
+
+## Rodar a aplicação
+
+```bash
+uvicorn app.main:app --reload
+```
+
+A API estará disponível em:
+
+* http://localhost:8000
+* Docs: http://localhost:8000/docs
+
+---
+
+## Banco de dados e migrations (Alembic)
+
+### Criar uma nova migration
+
+Sempre que alterar os models:
+
+```bash
+alembic revision --autogenerate -m "description of changes"
+```
+
+---
+
+### Revisar a migration
+
+Antes de aplicar, abra o arquivo gerado em:
+
+```bash
+alembic/versions/
+```
+
+Verifique:
+
+* tabelas criadas corretamente
+* foreign keys
+* tipos de dados
+
+---
+
+### Aplicar migration
+
+```bash
+alembic upgrade head
+```
+
+---
+
+### Reverter migration
+
+```bash
+alembic downgrade -1
+```
+
+---
+
+## Fluxo de desenvolvimento
+
+1. Criar/alterar models
+2. Gerar migration
+3. Revisar arquivo
+4. Rodar `upgrade`
