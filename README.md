@@ -3,7 +3,7 @@
 
 ## Intro
 <p>
-  A full-stack app where users can search movies and TV shows using The Movie Database (TMDb), add them to a personal watchlist, and manage status, ratings, and notes. The app stores only the media ID, keeping the database simple while following a scalable and practical structure.
+  A full-stack app where users can search movies and TV shows using The Movie Database (TMDb), add them to a personal watchlist, and manage ratings, and notes. The app stores only the media ID, keeping the database simple while following a scalable and practical structure.
 </p>
 
 ---
@@ -16,14 +16,27 @@
   
 ---
 ## Features
-- User authentication (register, login, logout)
-- Browse and filter movies and TV shows from The Movie Database (TMDb)
-- View personal watchlist
-- Add movies or series to the watchlist
-- Update watchlist status (planned, watching, completed, dropped)
-- Add ratings and personal notes
-- Remove items from the watchlist
 
+### Authentication
+- [ ] User authentication (register, login, logout)
+- [ ] User profile
+
+### Discovery
+- [ ] Browse and filter movies and TV shows (TMDb) *(no authentication required)*
+
+### Watchlists
+- [ ] Create a new watchlist
+- [ ] Update watchlist name
+- [ ] Delete a watchlist
+- [ ] View personal watchlists
+
+### Items Management
+- [ ] Add movies or series to a watchlist
+- [ ] Add ratings and personal notes to items
+- [ ] Change an item's watchlist
+- [ ] Remove items from a watchlist
+- [ ] View items inside the selected watchlist
+- [ ] View item details from TMDb *(no authentication required)*
 ---
 ## How it could be improved
 - Allow users to view other users’ watchlists (social features)
