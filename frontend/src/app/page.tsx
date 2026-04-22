@@ -35,7 +35,6 @@ export default function HomePage() {
   return (
     <div>
       <h1>{t("title")}</h1>
-
       {/* 🌍 locale */}
       <button onClick={() => changeLocale("en")}>EN</button>
       <button onClick={() => changeLocale("pt")}>PT</button>

@@ -11,9 +11,11 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    env_file:
-      - ./frontend/.env
-    restart: unless-stopped
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - WATCHPACK_POLLING_INTERVAL=1000
+    command: npm run dev
 
   backend:
     container_name: fastapi_dev
@@ -26,4 +28,6 @@ services:
       - ./backend:/app
     env_file:
       - ./backend/.env
+    environment:
+      - WATCHFILES_FORCE_POLLING=true
     restart: unless-stopped
