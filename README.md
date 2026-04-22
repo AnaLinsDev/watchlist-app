@@ -46,7 +46,10 @@
 - Add recommendations based on user activity
 
 ---
-## How to run the project BACKEND
+
+## How to run the project (without Docker)
+
+### BACKEND
 ```bash
 git clone https://github.com/AnaLinsDev/watchlist-app.git
 
@@ -60,7 +63,7 @@ npm run dev
 ```
 
 
-## How to run the project FRONTEND
+## FRONTEND
 
 ```bash
 git clone https://github.com/AnaLinsDev/watchlist-app.git
@@ -69,11 +72,32 @@ cd watchlist-app/frontend
 
 npm install
 
-Update the .env with the api_url with your running backend url
+Update the .env file with required variables (e.g., NEXT_PUBLIC_API_URL)
 
 npm run dev
 ```
 
+## How to run with Docker
+Run everything from the project root (watchlist-app/)
+
+### Development
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
 
 
+### Production
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d
+```
 
+### Stop Containers
+Dev:
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml down
+```
+
+Prod:
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml down
+```
