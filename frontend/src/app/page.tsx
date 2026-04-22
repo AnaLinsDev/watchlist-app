@@ -1,10 +1,22 @@
-import Link from 'next/link'
- 
-export default function Page() {
+"use client";
+
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+
+export default function HomePage() {
+  const router = useRouter();
+  const t = useTranslations("HomePage");
+
+  const changeLocale = (locale: string) => {
+    document.cookie = `locale=${locale}; path=/`;
+    router.refresh();
+  };
+
   return (
-    <div>
-      <h1>Home</h1>
-      <Link href="/about">About</Link>
-    </div>
-  )
+    <>
+      <h1>{t("title")}</h1>
+      <button onClick={() => changeLocale("en")}>EN</button>
+      <button onClick={() => changeLocale("pt")}>PT</button>
+    </>
+  );
 }
