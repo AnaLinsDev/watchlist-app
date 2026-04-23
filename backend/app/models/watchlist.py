@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from app.database import Base
 from app.models.mixins import TimestampMixin
 
+
 class Watchlist(Base, TimestampMixin):
     __tablename__ = "watchlists"
 

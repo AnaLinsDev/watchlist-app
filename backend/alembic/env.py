@@ -4,7 +4,6 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from app.database import Base
-from app.models import user, watchlist, watchlist_item
 
 from alembic import context
 from dotenv import load_dotenv
