@@ -2,7 +2,6 @@ from fastapi import Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from app.core.errors import AppError
-from app.core.errors import ErrorCode
 from app.core.error_map import ERROR_MAP
 
 
@@ -23,6 +22,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "errors": errors,
         },
     )
+
 
 async def app_error_handler(request: Request, exc: AppError):
     error = ERROR_MAP.get(exc.code)

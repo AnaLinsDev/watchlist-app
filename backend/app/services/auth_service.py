@@ -13,11 +13,9 @@ load_dotenv()
 
 NODE_ENV = os.getenv("NODE_ENV")
 
+
 def register_user(db: Session, email: str, username: str, password: str):
-    
-    print("RAW PASSWORD:", password)
-    print("LENGTH:", len(password.encode("utf-8")))
-    
+
     user = User(
         email=email,
         username=username,
@@ -48,7 +46,7 @@ def login_user(db: Session, response: Response, email: str, password: str):
         httponly=True,
         secure=NODE_ENV == "prod",
         samesite="lax",
-        max_age=60 * 60 * 24, # 1 day
+        max_age=60 * 60 * 24,  # 1 day
     )
 
     return user

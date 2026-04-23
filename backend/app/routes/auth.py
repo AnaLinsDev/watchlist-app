@@ -11,12 +11,14 @@ from app.controllers.auth_controller import (
 
 router = APIRouter(prefix="/auth")
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 @router.post("/register", response_model=AuthResponse)
 def register(data: RegisterRequest, db: Session = Depends(get_db)):

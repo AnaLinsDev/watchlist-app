@@ -88,6 +88,13 @@ A API estará disponível em:
 
 ---
 
+## Executar Lint 
+
+```bash
+flake8 .
+```
+---
+
 ## Banco de dados e migrations (Alembic)
 
 ### Criar uma nova migration

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, DateTime
 from datetime import datetime, timezone
 
+
 class TimestampMixin:
     created_at = Column(
         DateTime(timezone=True),

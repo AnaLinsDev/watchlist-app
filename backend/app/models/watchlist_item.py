@@ -4,9 +4,11 @@ from app.database import Base
 from app.models.mixins import TimestampMixin
 import enum
 
+
 class MediaType(enum.Enum):
     movie = "movie"
     tv = "tv"
+
 
 class WatchlistItem(Base, TimestampMixin):
     __tablename__ = "watchlist_items"
