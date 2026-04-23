@@ -51,17 +51,9 @@
 
 ### BACKEND
 ```bash
-git clone https://github.com/AnaLinsDev/watchlist-app.git
-
-cd watchlist-app/backend
-
-npm install
-
-Update the .env file with the required variables defined in env.ts (e.g., DATABASE_URL).
-
-npm run dev
+Steps with and without Docker on the README.md inside the backend folder
 ```
-
+ 
 
 ## FRONTEND
 
