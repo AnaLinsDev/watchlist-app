@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
 
 from app.main import app
-from app.routes.auth import get_db
+from app.routes.auth_routes import get_db
 
 client = TestClient(app)
 
