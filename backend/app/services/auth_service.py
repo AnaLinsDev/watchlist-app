@@ -16,9 +16,6 @@ NODE_ENV = os.getenv("NODE_ENV")
 
 def register_user(db: Session, email: str, username: str, password: str):
 
-    print("RAW PASSWORD:", password)
-    print("LENGTH:", len(password.encode("utf-8")))
-
     user = User(
         email=email,
         username=username,
