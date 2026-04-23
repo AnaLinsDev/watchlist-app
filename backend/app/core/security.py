@@ -30,7 +30,8 @@ def create_access_token(data: dict):
 
     to_encode.update({"exp": expire})
 
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return jwt.encode(to_encode, JWT_SECRET, algorithm=ALGORITHM)
+
 
 def parse_expires_in(value: str) -> timedelta:
     unit = value[-1]

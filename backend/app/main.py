@@ -3,10 +3,14 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from app.core.error_handlers import (validation_exception_handler, app_error_handler, global_exception_handler)
+from app.core.error_handlers import (
+    validation_exception_handler,
+    app_error_handler,
+    global_exception_handler
+)
 from app.core.errors import AppError
 from app.routes import auth
-import app.models
+import app.models as models  # noqa: F401
 
 load_dotenv()
 
