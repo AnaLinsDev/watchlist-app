@@ -15,6 +15,14 @@ ERROR_MAP = {
         "status": 404,
         "message": "User not found",
     },
+    ErrorCode.NOT_AUTHENTICATED: {
+        "status": 401,
+        "message": "Not authenticated",
+    },
+    ErrorCode.INVALID_TOKEN: {
+        "status": 401,
+        "message": "Invalid token",
+    },
 
     # DEFAULT
     ErrorCode.NOT_FOUND: {

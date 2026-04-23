@@ -1,34 +1,18 @@
 # app/dependencies/auth.py
 
-from fastapi import Depends, Cookie, HTTPException
+from fastapi import Depends, Cookie, HTTPException, Response
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 import os
 
 from app.database import get_db
-from app.services.user_service import get_user_by_id
+from app.services.user_service import delete_user_service
 
-JWT_SECRET = os.getenv("JWT_SECRET")
-ALGORITHM = os.getenv("ALGORITHM", "HS256")
-
-
-def get_current_user(
-    access_token: str = Cookie(None),
-    db: Session = Depends(get_db)
+def delete_user_controller(
+    response: Response,
+    current_user,
+    db: Session
 ):
+    delete_user_service(current_user.id, db, response)
 
-    if not access_token:
-        raise HTTPException(status_code=401, detail="Not authenticated")
-
-    try:
-        payload = jwt.decode(access_token, JWT_SECRET, algorithms=[ALGORITHM])
-        user_id = payload.get("sub")
-    except JWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
-
-    user = get_user_by_id(db, user_id)
-
-    if not user:
-        raise HTTPException(status_code=401, detail="User not found")
-
-    return user
+    return {"message": "User deleted successfully"}
