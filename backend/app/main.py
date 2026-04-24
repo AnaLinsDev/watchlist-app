@@ -9,8 +9,9 @@ from app.core.error_handlers import (
     global_exception_handler
 )
 from app.core.errors import AppError
-from app.routes import auth
+from app.routes import user_routes, auth_routes, watchlist_routes, watchlist_item_routes
 import app.models as models  # noqa: F401
+
 
 load_dotenv()
 
@@ -18,8 +19,10 @@ CLIENT_URL = os.getenv("CLIENT_URL")
 
 app = FastAPI()
 
-app.include_router(auth.router)
-
+app.include_router(auth_routes.router)
+app.include_router(user_routes.router)
+app.include_router(watchlist_routes.router)
+app.include_router(watchlist_item_routes.router)
 
 app.add_middleware(
     CORSMiddleware,

@@ -1,23 +1,10 @@
-import pytest
 from fastapi.testclient import TestClient
 from unittest.mock import MagicMock
 
 from app.main import app
-from app.routes.auth import get_db
+from app.routes.auth_routes import get_db
 
 client = TestClient(app)
-
-
-# ------------------------
-# FAKE USER (important)
-# ------------------------
-
-class FakeUser:
-    def __init__(self):
-        self.id = 1
-        self.email = "test@test.com"
-        self.username = "test"
-        self.password = "hashed_password"
 
 
 # ------------------------
@@ -36,10 +23,11 @@ app.dependency_overrides[get_db] = override_get_db
 # REGISTER
 # ------------------------
 
-def test_register_route_success(mocker):
-    mocker.patch("app.controllers.auth_controller.register_user",
-        return_value=FakeUser()
-    )
+def test_register_route_success(mocker, fake_user):
+
+    mocker.patch("app.routes.auth_routes.register_user",
+                 return_value=fake_user
+                 )
 
     response = client.post("/auth/register", json={
         "email": "test@test.com",
@@ -50,14 +38,15 @@ def test_register_route_success(mocker):
     assert response.status_code == 200
     assert response.json()["email"] == "test@test.com"
 
+
 # ------------------------
 # LOGIN
 # ------------------------
 
-def test_login_route_success(mocker):
+def test_login_route_success(mocker, fake_user):
     mocker.patch(
-        "app.controllers.auth_controller.login_user",
-        return_value=FakeUser()
+        "app.routes.auth_routes.login_user",
+        return_value=fake_user
     )
 
     response = client.post("/auth/login", json={
@@ -74,10 +63,6 @@ def test_login_route_success(mocker):
 # ------------------------
 
 def test_logout_route_success(mocker):
-    mocker.patch(
-        "app.controllers.auth_controller.logout_user",
-        return_value=None
-    )
 
     response = client.post("/auth/logout")
 
