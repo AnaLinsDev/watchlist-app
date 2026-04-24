@@ -39,9 +39,28 @@ ERROR_MAP = {
         "message": "Username already being used",
     },
 
+    # WATCHLIST
+    ErrorCode.MAX_WATCHLISTS_REACHED: {
+        "status": 400,
+        "message": "Maximum quantity of watchlists reached",
+    },
+    ErrorCode.WATCHLIST_NAME_EXISTS: {
+        "status": 409,
+        "message": "Watchlist with the same name already exists",
+    },
+    ErrorCode.WATCHLIST_NOT_FOUND: {
+        "status": 404,
+        "message": "Watchlist not found",
+    },
+   
+
     # DEFAULT
     ErrorCode.NOT_FOUND: {
         "status": 404,
         "message": "Resource not found",
+    },
+     ErrorCode.FORBIDDEN: {
+        "status": 403,
+        "message": "Username already being used",
     },
 }

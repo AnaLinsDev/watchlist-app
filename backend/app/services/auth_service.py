@@ -9,17 +9,19 @@ from app.core.errors import AppError, ErrorCode
 from dotenv import load_dotenv
 import os
 
+from app.schemas.auth_schema import LoginRequest, RegisterRequest
+
 load_dotenv()
 
 NODE_ENV = os.getenv("NODE_ENV")
 
 
-def register_user(db: Session, email: str, username: str, password: str):
+def register_user(db: Session, data: RegisterRequest):
 
     user = User(
-        email=email,
-        username=username,
-        password=hash_password(password),
+        email=data.email,
+        username=data.username,
+        password=hash_password(data.password),
     )
 
     try:
@@ -41,10 +43,10 @@ def register_user(db: Session, email: str, username: str, password: str):
         raise AppError(ErrorCode.USER_ALREADY_EXISTS)
 
 
-def login_user(db: Session, response: Response, email: str, password: str):
-    user = db.query(User).filter(User.email == email).first()
+def login_user(db: Session, response: Response, data: LoginRequest):
+    user = db.query(User).filter(User.email == data.email).first()
 
-    if not user or not verify_password(password, user.password):
+    if not user or not verify_password(data.password, user.password):
         raise AppError(ErrorCode.INVALID_CREDENTIALS)
 
     token = create_access_token({"sub": str(user.id)})
@@ -60,6 +62,3 @@ def login_user(db: Session, response: Response, email: str, password: str):
 
     return user
 
-
-def logout_user(response: Response):
-    response.delete_cookie("access_token")

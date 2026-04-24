@@ -8,8 +8,8 @@ from app.core.security import hash_password, verify_password
 from app.schemas.user_schema import UpdateUserRequest
 
 
-def update_user(user_id: int, db: Session, data: UpdateUserRequest):
-    user = db.get(User, user_id)
+def update_user(current_user: User, db: Session, data: UpdateUserRequest):
+    user = db.get(User, current_user.id)
 
     if not user:
         raise AppError(ErrorCode.USER_NOT_FOUND)
@@ -50,9 +50,9 @@ def update_user(user_id: int, db: Session, data: UpdateUserRequest):
         raise AppError(ErrorCode.USER_ALREADY_EXISTS)
 
 
-def delete_user(user_id: int, db: Session, response: Response):
+def delete_user(current_user: User, db: Session):
 
-    user = db.get(User, user_id)
+    user = db.get(User, current_user.id)
 
     if not user:
         raise AppError(ErrorCode.USER_NOT_FOUND)
@@ -60,4 +60,3 @@ def delete_user(user_id: int, db: Session, response: Response):
     db.delete(user)
     db.commit()
 
-    response.delete_cookie("access_token")
