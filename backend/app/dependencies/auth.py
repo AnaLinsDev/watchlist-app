@@ -5,7 +5,7 @@ import os
 
 from app.core.errors import AppError, ErrorCode
 from app.database import get_db
-from app.services.user_service import get_user_by_id
+from app.repositories.user_repository import get_user_by_id
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")

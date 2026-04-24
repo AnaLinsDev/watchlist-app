@@ -28,7 +28,7 @@ ERROR_MAP = {
     },
     ErrorCode.USER_ALREADY_EXISTS: {
         "status": 400,
-        "message": "Email or username already exists",
+        "message": "User with the email or username already exists",
     },
     ErrorCode.EMAIL_ALREADY_EXISTS: {
         "status": 400,

@@ -27,8 +27,17 @@ def register_user(db: Session, email: str, username: str, password: str):
         db.commit()
         db.refresh(user)
         return user
-    except IntegrityError:
+    except IntegrityError as e:
         db.rollback()
+
+        error_str = str(e.orig).lower()
+
+        if "email" in error_str:
+            raise AppError(ErrorCode.EMAIL_ALREADY_EXISTS)
+
+        if "username" in error_str:
+            raise AppError(ErrorCode.USERNAME_ALREADY_EXISTS)
+
         raise AppError(ErrorCode.USER_ALREADY_EXISTS)
 
 
