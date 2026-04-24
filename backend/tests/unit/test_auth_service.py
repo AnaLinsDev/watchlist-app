@@ -12,27 +12,24 @@ from app.models.user import User
 # REGISTER
 # ------------------------
 
-def test_register_user_success(mocker):
-    db = MagicMock()
+def test_register_user_success(db_mock):
 
-    db.add = MagicMock()
-    db.commit = MagicMock()
-    db.refresh = MagicMock()
+    db_mock.add = MagicMock()
+    db_mock.commit = MagicMock()
+    db_mock.refresh = MagicMock()
 
-    user = register_user(db, "test@test.com", "test", "123456")
+    user = register_user(db_mock, "test@test.com", "test", "123456")
 
     assert user.email == "test@test.com"
-    db.add.assert_called_once()
-    db.commit.assert_called_once()
+    db_mock.add.assert_called_once()
+    db_mock.commit.assert_called_once()
 
 
-def test_register_user_integrity_error(mocker):
-    db = MagicMock()
-
-    db.commit.side_effect = IntegrityError("", "", "")
+def test_register_user_integrity_error(db_mock):
+    db_mock.commit.side_effect = IntegrityError("", "", "")
 
     with pytest.raises(AppError) as err:
-        register_user(db, "test@test.com", "test", "123456")
+        register_user(db_mock, "test@test.com", "test", "123456")
 
     assert err.value.code == ErrorCode.USER_ALREADY_EXISTS
 
@@ -41,31 +38,29 @@ def test_register_user_integrity_error(mocker):
 # LOGIN
 # ------------------------
 
-def test_login_user_success(mocker):
-    db = MagicMock()
+def test_login_user_success(db_mock, mocker):
     response = Response()
 
     fake_user = User(id=1, email="test@test.com", password="hashed")
 
-    db.query().filter().first.return_value = fake_user
+    db_mock.query().filter().first.return_value = fake_user
 
     mocker.patch("app.services.auth_service.verify_password", return_value=True)
     mocker.patch("app.services.auth_service.create_access_token", return_value="token")
 
-    user = login_user(db, response, "test@test.com", "123456")
+    user = login_user(db_mock, response, "test@test.com", "123456")
 
     assert user == fake_user
     assert "access_token" in response.headers.get("set-cookie").lower()
 
 
-def test_login_user_invalid_credentials(mocker):
-    db = MagicMock()
+def test_login_user_invalid_credentials(db_mock):
     response = Response()
 
-    db.query().filter().first.return_value = None
+    db_mock.query().filter().first.return_value = None
 
     with pytest.raises(AppError) as err:
-        login_user(db, response, "test@test.com", "wrong")
+        login_user(db_mock, response, "test@test.com", "wrong")
 
     assert err.value.code == ErrorCode.INVALID_CREDENTIALS
 

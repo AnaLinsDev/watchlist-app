@@ -3,17 +3,40 @@ from app.core.errors import ErrorCode
 
 ERROR_MAP = {
     # AUTH
-    ErrorCode.USER_ALREADY_EXISTS: {
-        "status": 400,
-        "message": "Email or username already exists",
-    },
     ErrorCode.INVALID_CREDENTIALS: {
         "status": 401,
         "message": "Invalid credentials",
     },
+    ErrorCode.NOT_AUTHENTICATED: {
+        "status": 401,
+        "message": "Not authenticated",
+    },
+    ErrorCode.INVALID_TOKEN: {
+        "status": 401,
+        "message": "Invalid token",
+    },
+    ErrorCode.INVALID_CURRENT_PASSWORD: {
+        "status": 400,
+        "message": "Invalid current password field",
+    },
+
+
+    # USER
     ErrorCode.USER_NOT_FOUND: {
         "status": 404,
         "message": "User not found",
+    },
+    ErrorCode.USER_ALREADY_EXISTS: {
+        "status": 409,
+        "message": "User with the email or username already exists",
+    },
+    ErrorCode.EMAIL_ALREADY_EXISTS: {
+        "status": 409,
+        "message": "Email already being used",
+    },
+    ErrorCode.USERNAME_ALREADY_EXISTS: {
+        "status": 409,
+        "message": "Username already being used",
     },
 
     # DEFAULT

@@ -9,7 +9,7 @@ load_dotenv()
 
 JWT_SECRET = os.getenv("JWT_SECRET")
 JWT_EXPIRES_IN = os.getenv("JWT_EXPIRES_IN", "1d")
-ALGORITHM = "HS256"
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
