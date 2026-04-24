@@ -1,5 +1,5 @@
 from pydantic import BaseModel, StringConstraints
-from typing import Annotated, List
+from typing import Annotated
 
 Name = Annotated[
     str,
@@ -23,4 +23,5 @@ class WatchlistItemResponse(BaseModel):
 class WatchlistResponse(BaseModel):
     id: int
     name: str
-    items: List[WatchlistItemResponse] = []
+    items_count: int
+    # items: List[WatchlistItemResponse] = []

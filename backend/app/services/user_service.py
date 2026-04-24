@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from fastapi import Response
 
 from app.models import User
 from app.core.errors import AppError, ErrorCode
@@ -59,4 +58,3 @@ def delete_user(current_user: User, db: Session):
 
     db.delete(user)
     db.commit()
-

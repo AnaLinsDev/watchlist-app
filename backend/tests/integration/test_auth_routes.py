@@ -28,7 +28,7 @@ def test_register_route_success(mocker, fake_user):
     mocker.patch("app.routes.auth_routes.register_user",
                  return_value=fake_user
                  )
-    
+
     response = client.post("/auth/register", json={
         "email": "test@test.com",
         "username": "test",

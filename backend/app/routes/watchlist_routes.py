@@ -22,7 +22,9 @@ router = APIRouter(prefix="/watchlists")
 
 
 @router.post("", response_model=WatchlistResponse)
-def create(data: CreateWatchlistRequest, db: Session = Depends(get_db), user=Depends(get_current_user)):
+def create(data: CreateWatchlistRequest,
+           db: Session = Depends(get_db),
+           user=Depends(get_current_user)):
     return create_watchlist(db, user.id, data.name)
 
 
@@ -32,16 +34,23 @@ def list_all(db: Session = Depends(get_db), user=Depends(get_current_user)):
 
 
 @router.get("/{watchlist_id}", response_model=WatchlistResponse)
-def get_one(watchlist_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
+def get_one(watchlist_id: int,
+            db: Session = Depends(get_db),
+            user=Depends(get_current_user)):
     return get_watchlist_by_id(db, user.id, watchlist_id)
 
 
 @router.patch("/{watchlist_id}", response_model=WatchlistResponse)
-def update(watchlist_id: int, data: UpdateWatchlistRequest, db: Session = Depends(get_db), user=Depends(get_current_user)):
+def update(watchlist_id: int,
+           data: UpdateWatchlistRequest,
+           db: Session = Depends(get_db),
+           user=Depends(get_current_user)):
     return update_watchlist(db, user.id, watchlist_id, data.name)
 
 
 @router.delete("/{watchlist_id}")
-def delete(watchlist_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
+def delete(watchlist_id: int,
+           db: Session = Depends(get_db),
+           user=Depends(get_current_user)):
     delete_watchlist(db, user.id, watchlist_id)
     return {"message": "deleted"}

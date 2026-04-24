@@ -1,5 +1,4 @@
 import pytest
-from fastapi import Response
 from unittest.mock import MagicMock
 from jose import JWTError
 
@@ -216,9 +215,6 @@ def test_delete_user_success(db_mock):
 
     fake_user = User(id=1, email="test@test.com", password="hashed")
     db_mock.get.return_value = fake_user
-
-    response = Response()
-    user_id = 1
 
     delete_user(fake_user, db_mock)
 

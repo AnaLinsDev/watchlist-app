@@ -61,4 +61,3 @@ def login_user(db: Session, response: Response, data: LoginRequest):
     )
 
     return user
-

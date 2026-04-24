@@ -52,14 +52,27 @@ ERROR_MAP = {
         "status": 404,
         "message": "Watchlist not found",
     },
-   
+
+    # WATCHLIST ITEMS
+    ErrorCode.ITEM_NOT_FOUND: {
+        "status": 404,
+        "message": "Watchlist item not found",
+    },
+    ErrorCode.MAX_ITEMS_REACHED: {
+        "status": 400,
+        "message": "Maximum quantity of items reached",
+    },
+    ErrorCode.ITEM_ALREADY_EXISTS: {
+        "status": 409,
+        "message": "Item already exists in the watchlist",
+    },
 
     # DEFAULT
     ErrorCode.NOT_FOUND: {
         "status": 404,
         "message": "Resource not found",
     },
-     ErrorCode.FORBIDDEN: {
+    ErrorCode.FORBIDDEN: {
         "status": 403,
         "message": "Username already being used",
     },

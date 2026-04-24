@@ -19,7 +19,10 @@ def test_register_user_success(db_mock):
     db_mock.commit = MagicMock()
     db_mock.refresh = MagicMock()
 
-    fake_register_request = RegisterRequest(email="test@test.com", username="test", password= "123456")
+    fake_register_request = RegisterRequest(
+        email="test@test.com",
+        username="test",
+        password="123456")
 
     user = register_user(db_mock, fake_register_request)
 
@@ -31,7 +34,10 @@ def test_register_user_success(db_mock):
 def test_register_user_integrity_error(db_mock):
     db_mock.commit.side_effect = IntegrityError("", "", "")
 
-    fake_register_request = RegisterRequest(email="test@test.com", username="test", password= "123456")
+    fake_register_request = RegisterRequest(
+        email="test@test.com",
+        username="test",
+        password="123456")
 
     with pytest.raises(AppError) as err:
         register_user(db_mock, fake_register_request)
@@ -46,7 +52,7 @@ def test_register_user_integrity_error(db_mock):
 def test_login_user_success(db_mock, mocker):
     response = Response()
 
-    fake_login_request = LoginRequest(email="test@test.com", password= "123456")
+    fake_login_request = LoginRequest(email="test@test.com", password="123456")
     fake_user = User(id=1, email="test@test.com", password="hashed")
 
     db_mock.query().filter().first.return_value = fake_user
@@ -63,7 +69,7 @@ def test_login_user_success(db_mock, mocker):
 def test_login_user_invalid_credentials(db_mock):
     response = Response()
 
-    fake_login_request = LoginRequest(email="test@test.com", password= "wrongwrong")
+    fake_login_request = LoginRequest(email="test@test.com", password="wrongwrong")
 
     db_mock.query().filter().first.return_value = None
 
