@@ -16,7 +16,7 @@ ERROR_MAP = {
         "message": "Invalid token",
     },
     ErrorCode.INVALID_CURRENT_PASSWORD: {
-        "status": 401,
+        "status": 400,
         "message": "Invalid current password field",
     },
 
@@ -27,15 +27,15 @@ ERROR_MAP = {
         "message": "User not found",
     },
     ErrorCode.USER_ALREADY_EXISTS: {
-        "status": 400,
+        "status": 409,
         "message": "User with the email or username already exists",
     },
     ErrorCode.EMAIL_ALREADY_EXISTS: {
-        "status": 400,
+        "status": 409,
         "message": "Email already being used",
     },
     ErrorCode.USERNAME_ALREADY_EXISTS: {
-        "status": 400,
+        "status": 409,
         "message": "Username already being used",
     },
 

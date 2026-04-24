@@ -67,7 +67,7 @@ def test_get_current_user_user_not_found(mocker, db_mock):
     )
 
     mocker.patch(
-        "app.repositories.user_repository",
+        "app.dependencies.auth.get_user_by_id",
         return_value=None
     )
 
