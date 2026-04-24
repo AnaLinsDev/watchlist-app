@@ -10,7 +10,8 @@ from app.services.user_service import get_user_by_id
 JWT_SECRET = os.getenv("JWT_SECRET")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 
-def get_current_user_controller(
+
+def get_current_user(
     access_token: str = Cookie(None),
     db: Session = Depends(get_db)
 ):
