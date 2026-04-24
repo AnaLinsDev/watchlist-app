@@ -8,18 +8,6 @@ client = TestClient(app)
 
 
 # ------------------------
-# FAKE USER (important)
-# ------------------------
-
-class FakeUser:
-    def __init__(self):
-        self.id = 1
-        self.email = "test@test.com"
-        self.username = "test"
-        self.password = "hashed_password"
-
-
-# ------------------------
 # DB OVERRIDE
 # ------------------------
 
@@ -35,9 +23,10 @@ app.dependency_overrides[get_db] = override_get_db
 # REGISTER
 # ------------------------
 
-def test_register_route_success(mocker):
-    mocker.patch("app.controllers.auth_controller.register_user",
-                 return_value=FakeUser()
+def test_register_route_success(mocker, fake_user):
+
+    mocker.patch("app.routes.auth_routes.register_user",
+                 return_value=fake_user
                  )
 
     response = client.post("/auth/register", json={
@@ -54,10 +43,10 @@ def test_register_route_success(mocker):
 # LOGIN
 # ------------------------
 
-def test_login_route_success(mocker):
+def test_login_route_success(mocker, fake_user):
     mocker.patch(
-        "app.controllers.auth_controller.login_user",
-        return_value=FakeUser()
+        "app.routes.auth_routes.login_user",
+        return_value=fake_user
     )
 
     response = client.post("/auth/login", json={
@@ -74,10 +63,6 @@ def test_login_route_success(mocker):
 # ------------------------
 
 def test_logout_route_success(mocker):
-    mocker.patch(
-        "app.controllers.auth_controller.logout_user",
-        return_value=None
-    )
 
     response = client.post("/auth/logout")
 

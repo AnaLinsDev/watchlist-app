@@ -22,7 +22,6 @@ def test_get_profile(client, override_auth, fake_user):
 def test_update_user_success(client, override_auth, override_db, mocker, fake_user):
     override_db.get.return_value = fake_user
 
-    # ⚠️ patch where it's USED (service layer)
     mocker.patch(
         "app.services.user_service.verify_password",
         return_value=True

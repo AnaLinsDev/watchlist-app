@@ -1,5 +1,4 @@
 import pytest
-from fastapi import Response
 from unittest.mock import MagicMock
 from jose import JWTError
 
@@ -98,7 +97,7 @@ def test_update_user_success(mocker, db_mock):
         current_password="123456"
     )
 
-    user = update_user(1, db_mock, data)
+    user = update_user(fake_user, db_mock, data)
 
     assert user.email == "new@test.com"
     assert user.username == "newuser"
@@ -108,6 +107,8 @@ def test_update_user_success(mocker, db_mock):
 
 
 def test_update_user_not_found(db_mock):
+    fake_user = User(id=2, email="old@test.com", username="old", password="hashed")
+
     db_mock.get.return_value = None
 
     data = UpdateUserRequest(
@@ -116,7 +117,7 @@ def test_update_user_not_found(db_mock):
     )
 
     with pytest.raises(AppError) as err:
-        update_user(1, db_mock, data)
+        update_user(fake_user, db_mock, data)
 
     assert err.value.code == ErrorCode.USER_NOT_FOUND
 
@@ -133,7 +134,7 @@ def test_update_user_invalid_password(mocker, db_mock):
     )
 
     with pytest.raises(AppError) as err:
-        update_user(1, db_mock, data)
+        update_user(fake_user, db_mock, data)
 
     assert err.value.code == ErrorCode.INVALID_CURRENT_PASSWORD
 
@@ -151,7 +152,7 @@ def test_update_user_password_hash(mocker, db_mock):
         current_password="123456"
     )
 
-    user = update_user(1, db_mock, data)
+    user = update_user(fake_user, db_mock, data)
 
     assert user.password == "new_hashed"
 
@@ -175,7 +176,7 @@ def test_update_user_email_conflict(mocker, db_mock):
     )
 
     with pytest.raises(AppError) as err:
-        update_user(1, db_mock, data)
+        update_user(fake_user, db_mock, data)
 
     assert err.value.code == ErrorCode.EMAIL_ALREADY_EXISTS
 
@@ -199,7 +200,7 @@ def test_update_user_username_conflict(mocker, db_mock):
     )
 
     with pytest.raises(AppError) as err:
-        update_user(1, db_mock, data)
+        update_user(fake_user, db_mock, data)
 
     assert err.value.code == ErrorCode.USERNAME_ALREADY_EXISTS
 
@@ -215,17 +216,10 @@ def test_delete_user_success(db_mock):
     fake_user = User(id=1, email="test@test.com", password="hashed")
     db_mock.get.return_value = fake_user
 
-    response = Response()
-    user_id = 1
-
-    delete_user(user_id, db_mock, response)
+    delete_user(fake_user, db_mock)
 
     # delete was called with correct user
     db_mock.delete.assert_called_once_with(fake_user)
 
     # commit happened
     db_mock.commit.assert_called_once()
-
-    # cookie was cleared
-    cookies = response.headers.get("set-cookie", "")
-    assert "access_token" in cookies.lower()
