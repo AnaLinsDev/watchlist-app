@@ -18,7 +18,7 @@ from app.services.watchlist_service import (
     delete_watchlist
 )
 
-router = APIRouter(prefix="/watchlists")
+router = APIRouter(prefix="/watchlists", tags=["Watchlists"])
 
 
 @router.post("", response_model=WatchlistResponse)

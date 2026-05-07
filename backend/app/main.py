@@ -16,8 +16,18 @@ import app.models as models  # noqa: F401
 load_dotenv()
 
 CLIENT_URL = os.getenv("CLIENT_URL")
+is_prod = os.getenv("ENV") == "prod"
 
-app = FastAPI()
+app = FastAPI(
+    docs_url=None if is_prod else "/docs",
+    redoc_url=None if is_prod else "/redoc",
+    openapi_tags=[
+        {"name": "Auth", "description": "Authentication"},
+        {"name": "Users", "description": "User management"},
+        {"name": "Items", "description": "Item management"},
+        {"name": "Watchlists", "description": "Watchlist management"},
+    ]
+)
 
 app.include_router(auth_routes.router)
 app.include_router(user_routes.router)

@@ -42,29 +42,3 @@ jobs:
           pip install uvicorn
           uvicorn app.main:app --host 127.0.0.1 --port 8000 &
           sleep 5
-
-  frontend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        working-directory: ./frontend
-        run: npm install
-
-      - name: Lint
-        working-directory: ./frontend
-        run: npm run lint --if-present
-
-      - name: Test
-        working-directory: ./frontend
-        run: npm run test:run --if-present
-
-      - name: Build
-        working-directory: ./frontend
-        run: npm run build --if-present

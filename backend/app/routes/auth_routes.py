@@ -5,7 +5,7 @@ from app.database import get_db
 from app.schemas.auth_schema import RegisterRequest, LoginRequest, AuthResponse
 from app.services.auth_service import register_user, login_user
 
-router = APIRouter(prefix="/auth")
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 # Auth Register

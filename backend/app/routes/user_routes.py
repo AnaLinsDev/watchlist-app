@@ -6,7 +6,7 @@ from app.schemas.user_schema import UpdateUserRequest, UserResponse
 from app.dependencies.auth import get_current_user
 from app.services.user_service import update_user, delete_user
 
-router = APIRouter(prefix="/user")
+router = APIRouter(prefix="/user", tags=["Users"])
 
 
 # Get Profile

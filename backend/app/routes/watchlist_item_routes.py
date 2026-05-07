@@ -17,7 +17,7 @@ from app.services.watchlist_item_service import (
 )
 
 
-router = APIRouter(prefix="/items")
+router = APIRouter(prefix="/items", tags=["Items"])
 
 
 # ------------------------
